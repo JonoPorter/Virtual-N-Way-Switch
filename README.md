@@ -19,3 +19,5 @@ Profit!
 
 # CHANGES
 
+1.1:
+Added Pause

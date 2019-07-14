@@ -64,6 +64,14 @@ def slaveSwitchesInput = [
 	required: 			true,
     multiple:           true,
 ]
+def pauseInput = [
+	type: 				"bool",
+	name: 				"pause",
+	title: 				"Pause",
+    description: 		"Suspend Execution?",
+	required: 			true,
+	defaultValue: 		false
+]
 
 preferences {
  	page(name: "mainPage", title: "", install: true, uninstall: true) {
@@ -76,6 +84,7 @@ preferences {
         }
         section("Options"){
             input nwayNameInput;
+            input pauseInput;
             input enableDebugLoggingInput
             input idleTimeoutInput
         }
@@ -87,8 +96,10 @@ def initialize(){
     atomicState.lastRun =  new Date().getTime();
     atomicState.lastState = "";
     atomicState.lastId = "";
-	subscribe(controlSwitches, "switch.on", contactOpenHandler)
-	subscribe(controlSwitches, "switch.off", contactOpenHandler)
+    if(!pause){
+        subscribe(controlSwitches, "switch.on", contactOpenHandler)
+        subscribe(controlSwitches, "switch.off", contactOpenHandler)
+    }
 
 }
 
